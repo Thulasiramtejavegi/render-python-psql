@@ -1,0 +1,27 @@
+# Exported from Render on 2025-06-09T15:04:32Z
+databases:
+- name: userdb
+  databaseName: userdb_pb4a
+  user: userdb_pb4a_user
+  plan: free
+  region: oregon
+  ipAllowList:
+  - source: 0.0.0.0/0
+    description: everywhere
+  postgresMajorVersion: "16"
+services:
+- type: web
+  name: render-python-psql
+  runtime: docker
+  repo: https://github.com/Thulasiramtejavegi/render-python-psql
+  plan: free
+  envVars:
+  - key: DATABASE_URL
+    fromDatabase:
+      name: userdb
+      property: connectionString
+  region: oregon
+  dockerContext: .
+  dockerfilePath: ./Dockerfile
+  autoDeployTrigger: commit
+version: "1"
