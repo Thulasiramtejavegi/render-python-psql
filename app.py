@@ -15,12 +15,12 @@ class User(db.Model):
     username = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=False)
 
-@app.before_first_request
-def initialize():
-    print("Running before first request")
-    # For example, create tables
+# Initialize database within app context
+with app.app_context():
+    print("Creating database tables...")
     db.create_all()
-    
+    print("Tables created!")
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
